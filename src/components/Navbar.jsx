@@ -6,8 +6,8 @@ function Navbar() {
   const user = JSON.parse(localStorage.getItem("currentUser"));
 
   const logout = () => {
-    localStorage.removeItem("currentUser"); // ✅ remove user
-    navigate("/", { replace: true }); // ✅ redirect to login
+    localStorage.removeItem("currentUser"); 
+    navigate("/", { replace: true });
   };
 
   return (
