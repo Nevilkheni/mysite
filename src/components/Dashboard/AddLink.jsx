@@ -16,7 +16,7 @@ function AddLink() {
       await addDoc(collection(db, "links"), {
         ...link,
         createdAt: Timestamp.now(),
-        userId: auth.currentUser.uid, // ✅ Save current user UID
+        userId: auth.currentUser.uid,
       });
       setLink({ title: "", url: "", description: "" });
     } catch (error) {
