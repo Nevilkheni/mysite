@@ -1,9 +1,9 @@
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
@@ -41,13 +41,13 @@ function Login() {
       <p className="mt-4 text-center">
         <p className="mt-4 text-center">
           Don’t have an account?{" "}
-          <a href="/register" className="text-blue-600 underline">
+          <Link to="/register" className="text-blue-600 underline">
             Sign Up
-          </a>
+          </Link>
         </p>
-        <a href="/forgot-password" className="text-yellow-600 underline">
+        <Link to="/forgot-password" className="text-yellow-600 underline">
           Forgot Password?
-        </a>
+        </Link>
       </p>
     </form>
   );
