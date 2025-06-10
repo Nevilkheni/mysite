@@ -1,45 +1,54 @@
 
-
-import React, { useState, useEffect } from "react";
-import LinkCard from "./LinkCard";
+import React, { useEffect, useState } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "../../firebase";
 
 function LinkList() {
   const [links, setLinks] = useState([]);
-  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const updateLinks = () => {
-      const stored = JSON.parse(localStorage.getItem("links")) || [];
-      setLinks(stored);
-    };
-    updateLinks();
-    window.addEventListener("storage", updateLinks);
-    return () => window.removeEventListener("storage", updateLinks);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const q = query(collection(db, "links"), where("userId", "==", user.uid));
+          const snapshot = await getDocs(q);
+          const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+          setLinks(data);
+        } catch (error) {
+          console.error("Error fetching links:", error);
+        }
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe(); 
   }, []);
 
-  const filtered = links.filter(
-    (l) =>
-      l.title.toLowerCase().includes(query.toLowerCase()) ||
-      l.description?.toLowerCase().includes(query.toLowerCase())
-  );
+  if (loading) return <p className="text-center">Loading...</p>;
 
   return (
-    <div>
-      <input
-        placeholder="Search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="input mb-4"
-      />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filtered.map((link, i) => (
-          <LinkCard key={i} link={link} index={i} />
-        ))}
-      </div>
+    <div className="grid gap-4">
+      {links.map((link) => (
+        <div key={link.id} className="border p-4 rounded bg-white shadow">
+          <h3 className="font-bold text-lg">{link.title}</h3>
+          <p>{link.description}</p>
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            Visit
+          </a>
+        </div>
+      ))}
+      {links.length === 0 && (
+        <p className="text-gray-500 text-center">No links found for this user.</p>
+      )}
     </div>
   );
 }
 
 export default LinkList;
-
-

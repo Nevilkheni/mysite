@@ -1,25 +1,23 @@
+
+
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Auth/Login";
+import Signup from "./components/Auth/Register";
 import Dashboard from "./components/Dashboard";
+import ForgotPassword from "./components/Auth/ForgotPassword";
 
 function App() {
-  const location = useLocation();
-  const isLoggedIn = !!localStorage.getItem("currentUser");
-
-  return (
-    <Routes>
-      <Route path="/" element={isLoggedIn ? <Navigate to="/dashboard" /> : <Login />} />
-      <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to="/" />} />
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
-  );
-}
-
-export default function AppWrapper() {
   return (
     <Router>
-      <App />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Signup />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+         <Route path="/forgot-password" element={<ForgotPassword />} />
+      </Routes>
     </Router>
   );
 }
+
+export default App;

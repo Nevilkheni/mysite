@@ -1,22 +1,31 @@
+
 import React, { useState } from "react";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { auth, db } from "../../firebase";
 
 function AddLink() {
   const [link, setLink] = useState({ title: "", url: "", description: "" });
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!link.title || !link.url) {
       alert("Title and URL are required");
       return;
     }
-    const links = JSON.parse(localStorage.getItem("links")) || [];
-    links.push(link);
-    localStorage.setItem("links", JSON.stringify(links));
-    setLink({ title: "", url: "", description: "" });
-    window.dispatchEvent(new Event("storage"));
+
+    try {
+      await addDoc(collection(db, "links"), {
+        ...link,
+        createdAt: Timestamp.now(),
+        userId: auth.currentUser.uid, // ✅ Save current user UID
+      });
+      setLink({ title: "", url: "", description: "" });
+    } catch (error) {
+      alert("Error adding link: " + error.message);
+    }
   };
 
   return (
-    <div className="space-y-2 items-center flex flex-col   mb-6">
+    <div className="space-y-2 items-center flex flex-col mb-6">
       <input
         placeholder="Title"
         value={link.title}
@@ -37,7 +46,7 @@ function AddLink() {
       />
       <button
         onClick={handleAdd}
-        className="px-4 py-2 bg-green-600 w-40  text-white rounded hover:bg-green-700 transition"
+        className="px-4 py-2 bg-green-600 w-40 text-white rounded hover:bg-green-700 transition"
       >
         Add Link
       </button>

@@ -1,54 +1,34 @@
+
+
 import React, { useEffect, useState } from "react";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db, auth } from "../../firebase";
 
 function LinkList() {
   const [links, setLinks] = useState([]);
 
   useEffect(() => {
-    const updateLinks = () => {
-      const storedLinks = JSON.parse(localStorage.getItem("links")) || [];
-      setLinks(storedLinks);
+    const fetchLinks = async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const q = query(collection(db, "links"), where("uid", "==", user.uid));
+      const snapshot = await getDocs(q);
+      const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setLinks(data);
     };
-
-    updateLinks();
-
-    window.addEventListener("storage", updateLinks);
-    return () => window.removeEventListener("storage", updateLinks);
+    fetchLinks();
   }, []);
 
-  const handleDelete = (index) => {
-    const updated = [...links];
-    updated.splice(index, 1);
-    localStorage.setItem("links", JSON.stringify(updated));
-    setLinks(updated);
-  };
-
-  if (links.length === 0)
-    return <p className="text-center text-gray-500">No links added yet.</p>;
-
   return (
-    <div className="space-y-4">
-      {links.map((link, idx) => (
-        <div
-          key={idx}
-          className="p-4 border rounded shadow flex justify-between items-center"
-        >
-          <div>
-            <a
-              href={link.url}
-              target="_blank"
-              rel="noreferrer"
-              className="text-blue-600 font-semibold hover:underline"
-            >
-              {link.title}
-            </a>
-            {link.description && <p className="text-sm text-gray-600">{link.description}</p>}
-          </div>
-          <button
-            onClick={() => handleDelete(idx)}
-            className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
-          >
-            Delete
-          </button>
+    <div className="grid gap-4">
+      {links.map((link) => (
+        <div key={link.id} className="border p-4 rounded bg-white shadow">
+          <h3 className="font-bold text-lg">{link.title}</h3>
+          <p>{link.description}</p>
+          <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+            Visit
+          </a>
         </div>
       ))}
     </div>
