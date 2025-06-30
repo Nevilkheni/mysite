@@ -15,6 +15,7 @@ function App() {
         <Route path="/register" element={<Signup />} />
         <Route path="/dashboard" element={<Dashboard />} />
          <Route path="/forgot-password" element={<ForgotPassword />} />
+         <Route path="/login" element={<Login/>}/>
       </Routes>
     </Router>
   );

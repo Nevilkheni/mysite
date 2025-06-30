@@ -2,8 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
@@ -19,37 +18,50 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Login</h2>
-      <input
-        {...register("email")}
-        placeholder="Email"
-        className="input w-full px-4 py-2 mb-2 border rounded"
-      />
-      <input
-        {...register("password")}
-        placeholder="Password"
-        type="password"
-        className="input w-full px-4 py-2 mb-4 border rounded"
-      />
-      <button
-        type="submit"
-        className="w-full py-2 bg-blue-600 text-white rounded"
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-50 to-purple-100 px-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md"
       >
-        Login
-      </button>
-      <p className="mt-4 text-center">
-        <p className="mt-4 text-center">
-          Don’t have an account?{" "}
-          <Link to="/register" className="text-blue-600 underline">
-            Sign Up
-          </Link>
-        </p>
-        <Link to="/forgot-password" className="text-yellow-600 underline">
-          Forgot Password?
-        </Link>
-      </p>
-    </form>
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          Welcome Back 👋
+        </h2>
+
+        <input
+          {...register("email")}
+          placeholder="Email"
+          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        <input
+          {...register("password")}
+          placeholder="Password"
+          type="password"
+          className="w-full px-4 py-2 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        <button
+          type="submit"
+          className="w-full py-2 bg-blue-600 hover:bg-blue-700 transition text-white font-semibold rounded-lg"
+        >
+          Login
+        </button>
+
+        <div className="mt-6 text-center text-sm text-gray-600">
+          <p>
+            Don’t have an account?{" "}
+            <Link to="/register" className="text-blue-600 hover:underline">
+              Sign Up
+            </Link>
+          </p>
+          <p className="mt-2">
+            <Link to="/forgot-password" className="text-yellow-600 hover:underline">
+              Forgot Password?
+            </Link>
+          </p>
+        </div>
+      </form>
+    </div>
   );
 }
 

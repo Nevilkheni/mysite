@@ -1,9 +1,8 @@
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Signup() {
   const navigate = useNavigate();
@@ -20,14 +19,46 @@ function Signup() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Sign Up</h2>
-      <input {...register("email")} placeholder="Email" className="input w-full px-4 py-2 mb-2 border rounded" />
-      <input {...register("password")} placeholder="Password" type="password" className="input w-full px-4 py-2 mb-4 border rounded" />
-      <button type="submit" className="w-full py-2 bg-green-600 text-white rounded">Sign Up</button>
-    </form>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-green-50 to-emerald-100 px-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md"
+      >
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          Create Account 🚀
+        </h2>
+
+        <input
+          {...register("email")}
+          placeholder="Email"
+          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
+
+        <input
+          {...register("password")}
+          type="password"
+          placeholder="Password"
+          className="w-full px-4 py-2 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
+
+        <button
+          type="submit"
+          className="w-full py-2 bg-green-600 hover:bg-green-700 transition text-white font-semibold rounded-lg"
+        >
+          Sign Up
+        </button>
+
+        <div className="mt-4 text-center">
+          <p>
+            Already have an account?  
+            <Link to="/Login" className="text-green-600 underline">
+              Login
+            </Link>
+          </p>
+        </div>
+      </form>
+    </div>
   );
 }
 
 export default Signup;
-
