@@ -5,10 +5,12 @@ import LinkList from "./Dashboard/LinkList";
 
 function Dashboard() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 p-4">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-purple-200 to-green-200">
       <Navbar />
-      <AddLink />
-      <LinkList />
+      <main className="flex-grow p-4">
+        <AddLink />
+        <LinkList />
+      </main>
     </div>
   );
 }
