@@ -27,6 +27,15 @@ function LinkList() {
             id: doc.id,
             ...doc.data(),
           }));
+
+          // Sort links A -> Z by title (case-insensitive). Missing titles go last.
+          data.sort((a, b) => {
+            const ta = (a.title || "").toString();
+            const tb = (b.title || "").toString();
+            // localeCompare with sensitivity 'base' for case-insensitive compare
+            return ta.localeCompare(tb, undefined, { sensitivity: "base" });
+          });
+
           setLinks(data);
         } catch (error) {
           console.error("Error fetching links:", error);
