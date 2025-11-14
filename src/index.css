@@ -1,1 +1,150 @@
 @import "tailwindcss";
+
+/* Theme variables for light and dark modes. We toggle the `dark-theme` class on <html>. */
+:root {
+	--bg-gradient: linear-gradient(180deg, #e9d5ff 0%, #dbeafe 100%);
+	--header-bg: linear-gradient(90deg, #5b21b6 0%, #7c3aed 100%);
+	--header-text: #ffffff;
+	--btn-bg: #ffffff;
+	--btn-text: #6b21a8;
+	--muted: #475569;
+}
+
+.dark-theme {
+	--bg-gradient: linear-gradient(180deg, #0f172a 0%, #0b1220 100%);
+	--header-bg: linear-gradient(90deg, #111827 0%, #0b1220 100%);
+	--header-text: #f8fafc;
+	--btn-bg: linear-gradient(90deg, #0f172a, #0b1220);
+	--btn-text: #a78bfa;
+	--muted: #94a3b8;
+}
+
+html,
+body,
+#root {
+	height: 100%;
+}
+
+body {
+	background: var(--bg-gradient);
+	transition: background-color 220ms ease, color 220ms ease;
+	color: var(--muted);
+}
+
+/* Theme-safe utility classes for header and toggle */
+.theme-header {
+	background: var(--header-bg) !important;
+	color: var(--header-text) !important;
+}
+
+.theme-toggle-btn {
+	background: var(--btn-bg);
+	color: var(--btn-text);
+	box-shadow: 0 6px 18px rgba(99, 102, 241, 0.12);
+	border-radius: 9999px;
+}
+
+.theme-toggle-icon {
+	width: 20px;
+	height: 20px;
+}
+
+/* General UI elements tuned for an iOS-like, attractive palette */
+.container-card,
+.card {
+	background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.6));
+	-webkit-backdrop-filter: blur(6px);
+	backdrop-filter: blur(6px);
+	border: 1px solid rgba(255,255,255,0.5);
+	border-radius: 14px;
+	padding: 1rem;
+	box-shadow: 0 10px 30px rgba(2,6,23,0.08);
+	transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.dark-theme .card {
+	background: linear-gradient(180deg, rgba(17,24,39,0.6), rgba(11,17,32,0.6));
+	border: 1px solid rgba(255,255,255,0.04);
+	box-shadow: 0 12px 30px rgba(2,6,23,0.6);
+}
+
+.link-card {
+	background: linear-gradient(180deg, rgba(243,244,246,0.9), rgba(249,250,251,0.7));
+	border-radius: 16px;
+	padding: 1.25rem;
+	transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.dark-theme .link-card {
+	background: linear-gradient(180deg, rgba(15,23,42,0.6), rgba(2,6,23,0.5));
+}
+
+.card:hover,
+.link-card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 20px 40px rgba(2,6,23,0.12);
+}
+
+.btn-primary {
+	background: linear-gradient(90deg,#5b21b6,#7c3aed);
+	color: white;
+	padding: 0.625rem 1rem;
+	border-radius: 9999px;
+	font-weight: 600;
+	box-shadow: 0 8px 24px rgba(99,102,241,0.14);
+	transition: transform 140ms ease, box-shadow 140ms ease, opacity 120ms ease;
+}
+.btn-primary:hover { transform: translateY(-2px); }
+
+.btn-ghost {
+	background: transparent;
+	border: 1px solid rgba(0,0,0,0.06);
+	padding: 0.5rem 0.75rem;
+	border-radius: 12px;
+}
+
+.btn-danger {
+	background: linear-gradient(90deg,#ef4444,#f97316);
+	color: white;
+	width: 2rem;
+	height: 2rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 9999px;
+	box-shadow: 0 8px 20px rgba(239,68,68,0.12);
+}
+.btn-danger:hover { transform: translateY(-2px); }
+
+.input {
+	width: 100%;
+	padding: 0.625rem 0.75rem;
+	border-radius: 10px;
+	border: 1px solid rgba(15,23,42,0.06);
+	background: rgba(255,255,255,0.7);
+	transition: box-shadow 120ms ease, border-color 120ms ease, background 120ms ease;
+}
+.dark-theme .input {
+	background: rgba(255,255,255,0.02);
+	border: 1px solid rgba(255,255,255,0.04);
+}
+.input:focus { outline: none; box-shadow: 0 6px 20px rgba(99,102,241,0.08); }
+
+.site-link {
+	color: #4f46e5; /* indigo-600 */
+	text-decoration: none;
+	font-weight: 600;
+}
+.site-link:hover { text-decoration: underline; color: #6d28d9; }
+
+.badge {
+	display: inline-block;
+	padding: 0.25rem 0.5rem;
+	font-size: 12px;
+	border-radius: 9999px;
+	background: rgba(99,102,241,0.12);
+	color: #4f46e5;
+}
+
+/* Small utility tweaks to help Tailwind components blend with theme */
+.rounded-xl { border-radius: 14px !important; }
+.rounded-2xl { border-radius: 16px !important; }

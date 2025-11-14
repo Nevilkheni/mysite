@@ -19,39 +19,33 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-green-50 to-emerald-100 px-4">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md"
-      >
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="card p-8 w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center mb-6" style={{ color: "var(--header-text)" }}>
           Create Account 🚀
         </h2>
 
         <input
           {...register("email")}
           placeholder="Email"
-          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+          className="w-full px-4 py-2 mb-4 input"
         />
 
         <input
           {...register("password")}
           type="password"
           placeholder="Password"
-          className="w-full px-4 py-2 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+          className="w-full px-4 py-2 mb-6 input"
         />
 
-        <button
-          type="submit"
-          className="w-full py-2 bg-green-600 hover:bg-green-700 transition text-white font-semibold rounded-lg"
-        >
+        <button type="submit" className="w-full py-2 btn-primary">
           Sign Up
         </button>
 
         <div className="mt-4 text-center">
-          <p>
+          <p style={{ color: "var(--muted)" }}>
             Already have an account?  
-            <Link to="/Login" className="text-green-600 underline">
+            <Link to="/Login" className="site-link" style={{ marginLeft: 6 }}>
               Login
             </Link>
           </p>

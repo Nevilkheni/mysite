@@ -18,44 +18,38 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-50 to-purple-100 px-4">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md"
-      >
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="card p-8 w-full max-w-md">
+        <h2 className="text-2xl font-bold text-center mb-6" style={{ color: "var(--header-text)" }}>
           Welcome Back 👋
         </h2>
 
         <input
           {...register("email")}
           placeholder="Email"
-          className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full px-4 py-2 mb-4 input"
         />
 
         <input
           {...register("password")}
           placeholder="Password"
           type="password"
-          className="w-full px-4 py-2 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full px-4 py-2 mb-6 input"
         />
 
-        <button
-          type="submit"
-          className="w-full py-2 bg-blue-600 hover:bg-blue-700 transition text-white font-semibold rounded-lg"
-        >
+        <button type="submit" className="w-full py-2 btn-primary">
           Login
         </button>
 
-        <div className="mt-6 text-center text-sm text-gray-600">
+        <div className="mt-6 text-center text-sm" style={{ color: "var(--muted)" }}>
           <p>
             Don’t have an account?{" "}
-            <Link to="/register" className="text-blue-600 hover:underline">
+            <Link to="/register" className="site-link">
               Sign Up
             </Link>
           </p>
           <p className="mt-2">
-            <Link to="/forgot-password" className="text-yellow-600 hover:underline">
+            <Link to="/forgot-password" className="site-link">
               Forgot Password?
             </Link>
           </p>

@@ -20,13 +20,21 @@ function LinkList() {
     fetchLinks();
   }, []);
 
+  const normalizeUrl = (u) => {
+    if (!u) return u;
+    let s = u.trim();
+    s = s.replace(/^(https?:\/\/)+/i, "$1");
+    if (!/^https?:\/\//i.test(s)) s = `https://${s}`;
+    return s;
+  };
+
   return (
     <div className="grid gap-4">
       {links.map((link) => (
-        <div key={link.id} className="border p-4 rounded bg-white shadow">
-          <h3 className="font-bold text-lg">{link.title}</h3>
-          <p>{link.description}</p>
-          <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+        <div key={link.id} className="card">
+          <h3 className="font-bold text-lg" style={{ color: "var(--header-text)" }}>{link.title}</h3>
+          <p style={{ color: "var(--muted)" }}>{link.description}</p>
+          <a href={normalizeUrl(link.url)} target="_blank" rel="noopener noreferrer" className="site-link">
             Visit
           </a>
         </div>
