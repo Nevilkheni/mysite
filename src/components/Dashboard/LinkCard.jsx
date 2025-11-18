@@ -32,7 +32,7 @@ function LinkList() {
     <div className="grid gap-4">
       {links.map((link) => (
         <div key={link.id} className="card">
-          <h3 className="font-bold text-lg" style={{ color: "var(--header-text)" }}>{link.title}</h3>
+          <h3 className="font-bold text-lg" style={{ color: "var(--text-primary)" }}>{link.title}</h3>
           <p style={{ color: "var(--muted)" }}>{link.description}</p>
           <a href={normalizeUrl(link.url)} target="_blank" rel="noopener noreferrer" className="site-link">
             Visit

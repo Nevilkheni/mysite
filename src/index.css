@@ -5,6 +5,7 @@
 	--bg-gradient: linear-gradient(180deg, #e9d5ff 0%, #dbeafe 100%);
 	--header-bg: linear-gradient(90deg, #5b21b6 0%, #7c3aed 100%);
 	--header-text: #ffffff;
+	--text-primary: #0f172a;
 	--btn-bg: #ffffff;
 	--btn-text: #6b21a8;
 	--muted: #475569;
@@ -14,6 +15,7 @@
 	--bg-gradient: linear-gradient(180deg, #0f172a 0%, #0b1220 100%);
 	--header-bg: linear-gradient(90deg, #111827 0%, #0b1220 100%);
 	--header-text: #f8fafc;
+	--text-primary: #e6eef9;
 	--btn-bg: linear-gradient(90deg, #0f172a, #0b1220);
 	--btn-text: #a78bfa;
 	--muted: #94a3b8;

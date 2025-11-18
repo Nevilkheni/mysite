@@ -7,7 +7,7 @@ function Dashboard() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-grow p-4">
+      <main className="grow p-4">
         <AddLink />
         <LinkList />
       </main>

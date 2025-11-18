@@ -81,7 +81,7 @@ function LinkList() {
           >
             &times;
           </button>
-          <h3 className="font-semibold text-xl mb-2 mt-6" style={{ color: "var(--header-text)" }}>
+          <h3 className="font-semibold text-xl mb-2 mt-6" style={{ color: "var(--text-primary)" }}>
             {link.title}
           </h3>
           <p className="mb-3 text-sm" style={{ color: "var(--muted)" }}>{link.description}</p>
