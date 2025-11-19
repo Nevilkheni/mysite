@@ -10,4 +10,4 @@ console.log("Free Memory:", os.freemem());
 console.log("Uptime:", os.uptime(), "seconds");
 console.log("CPU Info:", os.cpus());          
 console.log("Home Directory:", os.homedir()); 
-console.log("Temporary Folder:", os.tmpdir());
+console.log("Temporary Folder:", os.tmpdir());z

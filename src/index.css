@@ -26,11 +26,13 @@ body,
 #root {
 	height: 100%;
 }
+html { scroll-behavior: smooth; }
 
 body {
 	background: var(--bg-gradient);
 	transition: background-color 220ms ease, color 220ms ease;
-	color: var(--muted);
+	color: var(--text-primary);
+	font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
 /* Theme-safe utility classes for header and toggle */
@@ -62,6 +64,9 @@ body {
 	padding: 1rem;
 	box-shadow: 0 10px 30px rgba(2,6,23,0.08);
 	transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+
+	/* Default text color inside cards uses theme variables so both modes look correct */
+	color: var(--text-primary);
 }
 
 .dark-theme .card {
@@ -69,6 +74,12 @@ body {
 	border: 1px solid rgba(255,255,255,0.04);
 	box-shadow: 0 12px 30px rgba(2,6,23,0.6);
 }
+
+/* Card internals: headings, paragraphs and links should use theme variables */
+.card h3 { color: var(--text-primary); }
+.card p { color: var(--muted); }
+.card a { color: var(--btn-text); font-weight: 600; }
+.dark-theme .card a { color: var(--btn-text); }
 
 .link-card {
 	background: linear-gradient(180deg, rgba(243,244,246,0.9), rgba(249,250,251,0.7));
@@ -103,6 +114,7 @@ body {
 	padding: 0.5rem 0.75rem;
 	border-radius: 12px;
 }
+.dark-theme .btn-ghost { border: 1px solid rgba(255,255,255,0.08); }
 
 .btn-danger {
 	background: linear-gradient(90deg,#ef4444,#f97316);
@@ -144,9 +156,24 @@ body {
 	font-size: 12px;
 	border-radius: 9999px;
 	background: rgba(99,102,241,0.12);
-	color: #4f46e5;
+	color: var(--btn-text);
 }
 
-/* Small utility tweaks to help Tailwind components blend with theme */
+.dark-theme .badge {
+	background: rgba(99,102,241,0.12);
+	color: var(--btn-text);
+	border: 1px solid rgba(255,255,255,0.04);
+}
+
 .rounded-xl { border-radius: 14px !important; }
 .rounded-2xl { border-radius: 16px !important; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid rgba(99,102,241,0.2);
+	border-top-color: #6366f1;
+	animation: spin 0.8s linear infinite;
+}

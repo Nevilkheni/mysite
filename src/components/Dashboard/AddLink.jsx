@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import { auth, db } from "../../firebase";
+import { useToast } from "../Shared/ToastProvider";
 
 function AddLink() {
   const [link, setLink] = useState({ title: "", url: "", description: "" });
+  const { showToast } = useToast();
 
   const handleAdd = async () => {
     if (!link.title || !link.url) {
@@ -32,42 +34,57 @@ function AddLink() {
         userId: auth.currentUser.uid,
       };
 
-      await addDoc(collection(db, "links"), dataToSave);
+      const docRef = await addDoc(collection(db, "links"), dataToSave);
       setLink({ title: "", url: "", description: "" });
+      if (showToast) {
+        showToast({
+          title: 'Link added',
+          message: dataToSave.title || 'New link added',
+          type: 'success',
+          meta: { url: dataToSave.url, id: docRef.id },
+          timeout: 7000,
+        })
+      }
     } catch (error) {
       console.error("Error adding link:", error);
-      alert("Error adding link: " + error.message);
+      if (showToast) {
+        showToast({ title: 'Error adding link', message: error.message, type: 'error' })
+      } else {
+        alert("Error adding link: " + error.message);
+      }
     }
   };
 
   return (
-    <div className="space-y-3 max-w-xl mx-auto card">
-      <h2 className="text-xl font-semibold mb-4" style={{ color: "var(--muted)" }}>Add a New Link</h2>
+    <div className="w-full max-w-7xl mx-auto px-4">
+      <div className="space-y-3 max-w-xl mx-auto bg-white rounded-2xl shadow p-6">
+        <h2 className="text-xl font-semibold mb-4 text-gray-800">Add a New Link</h2>
       <input
         placeholder="Title"
         value={link.title}
         onChange={(e) => setLink({ ...link, title: e.target.value })}
-        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 input"
+        className="input"
       />
       <input
         placeholder="URL"
         value={link.url}
         onChange={(e) => setLink({ ...link, url: e.target.value })}
-        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 input"
+        className="input"
       />
       <textarea
         placeholder="Description (optional)"
         value={link.description}
         onChange={(e) => setLink({ ...link, description: e.target.value })}
-        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 input"
+        className="input"
         rows={3}
       />
-      <button
-        onClick={handleAdd}
-        className="w-full py-2 btn-primary"
-      >
-        Add Link
-      </button>
+        <button
+          onClick={handleAdd}
+          className="w-full cursor-pointer py-2 btn-primary"
+        >
+          Add Link
+        </button>
+      </div>
     </div>
   );
 }

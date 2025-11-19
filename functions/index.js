@@ -4,6 +4,7 @@ const sgMail = require('@sendgrid/mail');
 
 admin.initializeApp();
 
+
 // Read SendGrid config from functions config: set with
 // firebase functions:config:set sendgrid.key="YOUR_KEY" sendgrid.sender="no-reply@yourdomain.com"
 const SENDGRID_KEY = functions.config().sendgrid && functions.config().sendgrid.key;
