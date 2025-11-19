@@ -16,6 +16,7 @@ function LinkList() {
   const [links, setLinks] = useState([]);
   const [loading, setLoading] = useState(true);
   const { showToast } = useToast();
+  const [deletingIds, setDeletingIds] = useState([]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -51,7 +52,10 @@ function LinkList() {
   }, []);
 
   const handleDelete = async (id) => {
-    if (!confirm('Delete this link?')) return;
+    // explicit window.confirm and debug logging
+    console.log('Attempting to delete link', id);
+    if (!window.confirm('Delete this link?')) return;
+    setDeletingIds((s) => [...s, id]);
     try {
       await deleteDoc(doc(db, "links", id));
       setLinks((prev) => prev.filter((link) => link.id !== id));
@@ -59,6 +63,8 @@ function LinkList() {
     } catch (error) {
       console.error("Error deleting link:", error);
       if (showToast) showToast({ title: 'Delete failed', message: error.message, type: 'error' })
+    } finally {
+      setDeletingIds((s) => s.filter((x) => x !== id));
     }
   };
 
@@ -79,17 +85,28 @@ function LinkList() {
         <div key={link.id} className="relative group">
           <div className="absolute top-4 left-4 badge">Link #{index + 1}</div>
           <button
-            onClick={() => handleDelete(link.id)}
-            className="absolute top-4 right-4 btn-danger z-20"
+            type="button"
+            onClick={(e) => { e.stopPropagation(); handleDelete(link.id); }}
+            className={`absolute top-4 right-4 btn-danger z-20 ${deletingIds.includes(link.id) ? 'opacity-60 cursor-not-allowed' : ''}`}
             title="Delete"
             aria-label={`Delete link ${link.title || ''}`}
+            disabled={deletingIds.includes(link.id)}
           >
-            <span className="group-hover:hidden cursor-pointer">&times;</span>
-            <span className="hidden group-hover:inline-flex cursor-pointer" aria-hidden>
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M10 3h4a1 1 0 011 1v2H9V4a1 1 0 011-1z" />
+            {deletingIds.includes(link.id) ? (
+              <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" style={{ color: 'white' }}>
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.2" />
+                <path d="M22 12a10 10 0 00-10-10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
               </svg>
-            </span>
+            ) : (
+              <> 
+                <span className="group-hover:hidden cursor-pointer">&times;</span>
+                <span className="hidden group-hover:inline-flex cursor-pointer" aria-hidden>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M10 3h4a1 1 0 011 1v2H9V4a1 1 0 011-1z" />
+                  </svg>
+                </span>
+              </>
+            )}
           </button>
           <div className="card hover:shadow-xl transition-transform duration-300 hover:-translate-y-1">
             <h3 className="font-semibold text-xl mb-2 mt-6">{link.title}</h3>

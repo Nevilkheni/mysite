@@ -6,6 +6,7 @@ import { useToast } from "../Shared/ToastProvider";
 function AddLink() {
   const [link, setLink] = useState({ title: "", url: "", description: "" });
   const { showToast } = useToast();
+  const [adding, setAdding] = useState(false);
 
   const handleAdd = async () => {
     if (!link.title || !link.url) {
@@ -18,6 +19,7 @@ function AddLink() {
       return;
     }
 
+    setAdding(true);
     try {
       const normalizeUrl = (u) => {
         if (!u) return u;
@@ -52,6 +54,8 @@ function AddLink() {
       } else {
         alert("Error adding link: " + error.message);
       }
+    } finally {
+      setAdding(false);
     }
   };
 
@@ -79,10 +83,22 @@ function AddLink() {
         rows={3}
       />
         <button
+          type="button"
           onClick={handleAdd}
-          className="w-full cursor-pointer py-2 btn-primary"
+          className={`w-full py-2 btn-primary ${adding ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'}`}
+          disabled={adding}
         >
-          Add Link
+          {adding ? (
+            <span className="inline-flex items-center justify-center gap-2">
+              <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeOpacity="0.2" />
+                <path d="M22 12a10 10 0 00-10-10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              <span>Adding...</span>
+            </span>
+          ) : (
+            'Add Link'
+          )}
         </button>
       </div>
     </div>
